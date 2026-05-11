@@ -13,6 +13,8 @@ namespace adbGUI
         [STAThread]
         private static void Main()
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             try
             {
                 Dependencies.Check();
@@ -21,9 +23,6 @@ namespace adbGUI
             {
                 MessageBox.Show(ex.Message);
             }
-
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
         }
     }
