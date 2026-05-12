@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Management;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,7 +9,8 @@ namespace adbGUI.Methods
 {
     public static class CLI
     {
-        private static readonly Encoding defaultEncoding = Encoding.UTF8;
+        private static readonly Encoding standardOutputEncoding = Encoding.UTF8;
+        private static readonly Encoding standardErrorEncoding = Encoding.GetEncoding((int)Helper.GetConsoleOutputCP());
 
         static CLI()
         {
@@ -24,8 +25,8 @@ namespace adbGUI.Methods
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 RedirectStandardInput = true,
-                StandardOutputEncoding = defaultEncoding,
-                StandardErrorEncoding = defaultEncoding
+                StandardOutputEncoding = standardOutputEncoding,
+                StandardErrorEncoding = standardErrorEncoding
             };
 
             Commandline.EnableRaisingEvents = true;
@@ -150,8 +151,8 @@ namespace adbGUI.Methods
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 RedirectStandardInput = true,
-                StandardOutputEncoding = defaultEncoding,
-                StandardErrorEncoding = defaultEncoding
+                StandardOutputEncoding = standardOutputEncoding,
+                StandardErrorEncoding = standardErrorEncoding
             };
 
             cmd.EnableRaisingEvents = true;
@@ -167,6 +168,11 @@ namespace adbGUI.Methods
         {
             KillChildProcessesWithShell();
             Commandline.Kill();
+        }
+        private static class Helper
+        {
+            [DllImport("kernel32.dll")]
+            public static extern uint GetConsoleOutputCP();
         }
     }
 }

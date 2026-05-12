@@ -246,7 +246,7 @@
             treeNode7.Tag = "#BackupRestore";
             treeNode7.Text = "Backup Restore";
             treeNode8.Name = "Knoten3";
-            treeNode8.Tag = "0";
+            treeNode8.Tag = "";
             treeNode8.Text = "Device";
             treeNode9.Name = "Knoten31";
             treeNode9.Tag = "%screenshot";
@@ -264,7 +264,7 @@
             treeNode12.Tag = "#Density";
             treeNode12.Text = "Density";
             treeNode13.Name = "Knoten0";
-            treeNode13.Tag = "0";
+            treeNode13.Tag = "";
             treeNode13.Text = "Display";
             treeNode14.Name = "Knoten4";
             treeNode14.Tag = "adb shell getprop";
@@ -273,7 +273,7 @@
             treeNode15.Tag = "#SetProp";
             treeNode15.Text = "Set Prop";
             treeNode16.Name = "Knoten0";
-            treeNode16.Tag = "0";
+            treeNode16.Tag = "";
             treeNode16.Text = "Prop";
             treeNode17.Name = "Knoten8";
             treeNode17.Tag = "adb shell ps";
@@ -315,7 +315,7 @@
             treeNode29.Tag = "adb remount";
             treeNode29.Text = "Remount System";
             treeNode30.Name = "Knoten0";
-            treeNode30.Tag = "0";
+            treeNode30.Tag = "";
             treeNode30.Text = "System";
             treeNode31.Name = "Knoten7";
             treeNode31.Tag = "adb shell iftop";
@@ -336,7 +336,7 @@
             treeNode36.Tag = "#SpoofMac";
             treeNode36.Text = "Spoof MAC";
             treeNode37.Name = "Knoten1";
-            treeNode37.Tag = "0";
+            treeNode37.Tag = "";
             treeNode37.Text = "Network";
             treeNode38.Name = "Knoten11";
             treeNode38.Tag = "adb shell pm list packages -f";
@@ -351,7 +351,7 @@
             treeNode41.Tag = "#InstallUninstall";
             treeNode41.Text = "Install and Uninstall";
             treeNode42.Name = "Knoten2";
-            treeNode42.Tag = "0";
+            treeNode42.Tag = "";
             treeNode42.Text = "Packages";
             treeNode43.Name = "Knoten1";
             treeNode43.Tag = "adb logcat";
@@ -390,10 +390,10 @@
             treeNode54.Tag = "adb logcat *:S";
             treeNode54.Text = "Silent";
             treeNode55.Name = "Knoten3";
-            treeNode55.Tag = "0";
+            treeNode55.Tag = "";
             treeNode55.Text = "Filter";
             treeNode56.Name = "Knoten0";
-            treeNode56.Tag = "0";
+            treeNode56.Tag = "";
             treeNode56.Text = "Logcat";
             treeNode57.Name = "Knoten5";
             treeNode57.Tag = "adb shell dumpsys";
@@ -402,7 +402,7 @@
             treeNode58.Tag = "adb shell dmesg";
             treeNode58.Text = "Kernel Messages";
             treeNode59.Name = "Knoten20";
-            treeNode59.Tag = "0";
+            treeNode59.Tag = "";
             treeNode59.Text = "Logging";
             treeNode60.Name = "Knoten2";
             treeNode60.Tag = "fastboot devices";
@@ -432,7 +432,7 @@
             treeNode68.Tag = "fastboot --version";
             treeNode68.Text = "Version";
             treeNode69.Name = "Knoten0";
-            treeNode69.Tag = "0";
+            treeNode69.Tag = "";
             treeNode69.Text = "Fastboot";
             treeNode70.Name = "Knoten1";
             treeNode70.Tag = "adb help";
@@ -441,13 +441,13 @@
             treeNode71.Tag = "adb version";
             treeNode71.Text = "Version";
             treeNode72.Name = "Knoten0";
-            treeNode72.Tag = "0";
+            treeNode72.Tag = "";
             treeNode72.Text = "Adb";
             treeNode73.Name = "Knoten1";
             treeNode73.Tag = "#Credits";
             treeNode73.Text = "Credits";
             treeNode74.Name = "Knoten0";
-            treeNode74.Tag = "0";
+            treeNode74.Tag = "";
             treeNode74.Text = "About";
             this.trv_commandTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode8,
@@ -532,6 +532,7 @@
             this.toolStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.toolStrip1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsc_ConnectedDevices,
             this.tsd_Power,
@@ -545,7 +546,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(18, 14, 16, 4);
-            this.toolStrip1.Size = new System.Drawing.Size(1551, 47);
+            this.toolStrip1.Size = new System.Drawing.Size(1551, 51);
             this.toolStrip1.TabIndex = 13;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -556,7 +557,7 @@
             this.tsc_ConnectedDevices.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this.tsc_ConnectedDevices.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsc_ConnectedDevices.Name = "tsc_ConnectedDevices";
-            this.tsc_ConnectedDevices.Size = new System.Drawing.Size(223, 29);
+            this.tsc_ConnectedDevices.Size = new System.Drawing.Size(223, 33);
             this.tsc_ConnectedDevices.SelectedIndexChanged += new System.EventHandler(this.Tsc_ConnectedDevices_SelectedIndexChanged);
             // 
             // tsd_Power
@@ -573,7 +574,7 @@
             this.tsd_Power.Image = global::adbGUI.Properties.Resources.power;
             this.tsd_Power.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsd_Power.Name = "tsd_Power";
-            this.tsd_Power.Size = new System.Drawing.Size(136, 24);
+            this.tsd_Power.Size = new System.Drawing.Size(144, 28);
             this.tsd_Power.Text = "Power Menu";
             // 
             // tsm_PowerRebootNormal
@@ -636,7 +637,7 @@
             this.tsd_WirelessAdb.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsd_WirelessAdb.Margin = new System.Windows.Forms.Padding(1, 1, 0, 2);
             this.tsd_WirelessAdb.Name = "tsd_WirelessAdb";
-            this.tsd_WirelessAdb.Size = new System.Drawing.Size(150, 26);
+            this.tsd_WirelessAdb.Size = new System.Drawing.Size(158, 30);
             this.tsd_WirelessAdb.Text = "Wireless ADB";
             // 
             // tst_IpAdress
@@ -667,7 +668,7 @@
             this.tsb_KillServer.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_KillServer.Margin = new System.Windows.Forms.Padding(1, 1, 0, 2);
             this.tsb_KillServer.Name = "tsb_KillServer";
-            this.tsb_KillServer.Size = new System.Drawing.Size(106, 26);
+            this.tsb_KillServer.Size = new System.Drawing.Size(114, 30);
             this.tsb_KillServer.Text = "Kill Server";
             this.tsb_KillServer.Click += new System.EventHandler(this.Tsb_KillServer_Click);
             // 
@@ -678,7 +679,7 @@
             this.tsb_OpenShell.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_OpenShell.Margin = new System.Windows.Forms.Padding(1, 1, 0, 2);
             this.tsb_OpenShell.Name = "tsb_OpenShell";
-            this.tsb_OpenShell.Size = new System.Drawing.Size(111, 26);
+            this.tsb_OpenShell.Size = new System.Drawing.Size(119, 30);
             this.tsb_OpenShell.Text = "Open Shell";
             this.tsb_OpenShell.Click += new System.EventHandler(this.Tsb_OpenShell_Click);
             // 
@@ -689,7 +690,7 @@
             this.tsb_AdbRoot.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_AdbRoot.Margin = new System.Windows.Forms.Padding(1, 1, 0, 2);
             this.tsb_AdbRoot.Name = "tsb_AdbRoot";
-            this.tsb_AdbRoot.Size = new System.Drawing.Size(105, 26);
+            this.tsb_AdbRoot.Size = new System.Drawing.Size(113, 30);
             this.tsb_AdbRoot.Text = "ADB Root";
             this.tsb_AdbRoot.Click += new System.EventHandler(this.Tsb_AdbRoot_Click);
             // 
@@ -697,7 +698,7 @@
             // 
             this.toolStripLabel1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(165, 24);
+            this.toolStripLabel1.Size = new System.Drawing.Size(165, 28);
             this.toolStripLabel1.Text = "Connected Devices: ";
             // 
             // tsb_AdbUnroot
@@ -707,7 +708,7 @@
             this.tsb_AdbUnroot.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_AdbUnroot.Margin = new System.Windows.Forms.Padding(1, 1, 0, 2);
             this.tsb_AdbUnroot.Name = "tsb_AdbUnroot";
-            this.tsb_AdbUnroot.Size = new System.Drawing.Size(120, 26);
+            this.tsb_AdbUnroot.Size = new System.Drawing.Size(128, 30);
             this.tsb_AdbUnroot.Text = "ADB Unroot";
             this.tsb_AdbUnroot.Click += new System.EventHandler(this.Tsb_AdbUnroot_Click);
             // 
@@ -717,7 +718,7 @@
             this.tsb_AlwayClearConsole.Image = global::adbGUI.Properties.Resources.eraser;
             this.tsb_AlwayClearConsole.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_AlwayClearConsole.Name = "tsb_AlwayClearConsole";
-            this.tsb_AlwayClearConsole.Size = new System.Drawing.Size(193, 24);
+            this.tsb_AlwayClearConsole.Size = new System.Drawing.Size(201, 28);
             this.tsb_AlwayClearConsole.Text = "Always Clear Console";
             this.tsb_AlwayClearConsole.CheckedChanged += new System.EventHandler(this.Tsb_AlwayClearConsole_CheckedChanged);
             // 
