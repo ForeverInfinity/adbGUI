@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading;
+﻿using adbGUI.Methods;
+using System;
 using System.Windows.Forms;
-using adbGUI.Methods;
 
 namespace adbGUI.Forms
 {

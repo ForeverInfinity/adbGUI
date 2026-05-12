@@ -1,166 +1,172 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Management;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace adbGUI.Methods
 {
-	public static class CLI
-	{
-		private static readonly int defaultCodePage = CultureInfo.CurrentCulture.TextInfo.OEMCodePage;
+    public static class CLI
+    {
+        private static readonly Encoding defaultEncoding = Encoding.UTF8;
 
-		static CLI()
-		{
-			Commandline = new Process();
+        static CLI()
+        {
+            Commandline = new Process();
 
-			ProcessStartInfo startInfo = new ProcessStartInfo()
-			{
-				FileName = "cmd",
-				Arguments = "/K prompt $g ",
-				UseShellExecute = false,
-				CreateNoWindow = true,
-				RedirectStandardOutput = true,
-				RedirectStandardError = true,
-				RedirectStandardInput = true,
-				StandardOutputEncoding = Encoding.GetEncoding(defaultCodePage),
-				StandardErrorEncoding = Encoding.GetEncoding(defaultCodePage)
-			};
+            ProcessStartInfo startInfo = new ProcessStartInfo()
+            {
+                FileName = "cmd",
+                Arguments = "/K prompt $g ",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                RedirectStandardInput = true,
+                StandardOutputEncoding = defaultEncoding,
+                StandardErrorEncoding = defaultEncoding
+            };
 
-			Commandline.EnableRaisingEvents = true;
+            Commandline.EnableRaisingEvents = true;
 
-			Commandline.StartInfo = startInfo;
+            Commandline.StartInfo = startInfo;
 
-			Commandline.Start();
-		}
+            Commandline.Start();
+        }
 
-		public static Process Commandline { get; set; } = new Process();
+        public static Process Commandline { get; }
 
-		public static List<int> GetChildProcesses()
-		{
-			List<int> lst = new List<int>();
+        public static List<int> GetChildProcesses()
+        {
+            List<int> lst = new List<int>(4);
+            string query =
+                $"SELECT ProcessID FROM Win32_Process " +
+                $"WHERE ParentProcessID={Commandline.Id} " +
+                $"AND Name!='conhost.exe'";
 
-			using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Process WHERE ParentProcessID=" + Commandline.Id + " AND Caption != 'conhost.exe'"))
-			{
-				ManagementObjectCollection managementObjectCollection = searcher.Get();
-				foreach (ManagementObject managementObject in managementObjectCollection)
-				{
-					lst.Add(Convert.ToInt32(managementObject["ProcessID"]));
-				}
-			}
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
+            {
+                using (ManagementObjectCollection results = searcher.Get())
+                {
+                    foreach (ManagementBaseObject mo in results)
+                    {
+                        if (mo["ProcessID"] is uint pid)
+                        {
+                            lst.Add((int)pid);
+                        }
+                    }
+                }
+            }
+            return lst;
+        }
 
-			return lst;
-		}
+        public static void KillChildProcesses()
+        {
+            foreach (int pid in GetChildProcesses())
+            {
+                Debug.WriteLine($"Killing {pid})");
+                Process.GetProcessById(pid).Kill();
+            }
+        }
 
-		public static void KillChildProcesses()
-		{
-			foreach (int pid in GetChildProcesses())
-			{
-				Debug.WriteLine($"Killing {pid})");
-				Process.GetProcessById(pid).Kill();
-			}
-		}
+        public static void KillChildProcessesAsync()
+        {
+            Task.Run(() => { KillChildProcesses(); });
+        }
 
-		public static void KillChildProcessesAsync()
-		{
-			Task.Run(() => { KillChildProcesses(); });
-		}
+        public static void KillChildProcessesWithShell()
+        {
+            string input = "taskkill /F ";
 
-		public static void KillChildProcessesWithShell()
-		{
-			string input = "taskkill /F ";
+            foreach (int pid in GetChildProcesses())
+            {
+                input += $"/PID {pid} ";
+            }
 
-			foreach (int pid in GetChildProcesses())
-			{
-				input += $"/PID {pid} ";
-			}
+            if (input == "taskkill /F ") return;
 
-			if (input == "taskkill /F ") return;
+            Process cmd = new Process();
 
-			Process cmd = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo()
+            {
+                FileName = "cmd",
+                Arguments = "/c " + input,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+            };
 
-			ProcessStartInfo startInfo = new ProcessStartInfo()
-			{
-				FileName = "cmd",
-				Arguments = "/c " + input,
-				UseShellExecute = false,
-				CreateNoWindow = true,
-			};
+            cmd.StartInfo = startInfo;
 
-			cmd.StartInfo = startInfo;
+            Debug.WriteLine("Executing: cmd /c " + input);
 
-			Debug.WriteLine("Executing: cmd /c " + input);
+            cmd.Start();
+        }
 
-			cmd.Start();
-		}
+        public static void KillAllAdbProcessesWithShell()
+        {
+            string input = "taskkill /F ";
 
-		public static void KillAllAdbProcessesWithShell()
-		{
-			string input = "taskkill /F ";
+            foreach (Process process in Process.GetProcessesByName("adb"))
+            {
+                input += $"/PID {process.Id} ";
+            }
 
-			foreach (Process process in Process.GetProcessesByName("adb"))
-			{
-				input += $"/PID {process.Id} ";
-			}
+            if (input == "taskkill /F ") return;
 
-			if (input == "taskkill /F ") return;
+            Process cmd = new Process();
 
-			Process cmd = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo()
+            {
+                FileName = "cmd",
+                Arguments = "/c " + input,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+            };
 
-			ProcessStartInfo startInfo = new ProcessStartInfo()
-			{
-				FileName = "cmd",
-				Arguments = "/c " + input,
-				UseShellExecute = false,
-				CreateNoWindow = true,
-			};
+            cmd.StartInfo = startInfo;
 
-			cmd.StartInfo = startInfo;
+            Debug.WriteLine("Executing: cmd /c " + input);
 
-			Debug.WriteLine("Executing: cmd /c " + input);
+            cmd.Start();
 
-			cmd.Start();
+        }
 
-		}
+        public static void Execute(string command)
+        {
+            Commandline.StandardInput.WriteLine(command);
+        }
 
-		public static void Execute(string command)
-		{
-			Commandline.StandardInput.WriteLine(command);
-		}
+        public static string GetOutput(string fileName, string arguments)
+        {
+            Process cmd = new Process();
 
-		public static string GetOutput(string fileName, string arguments)
-		{
-			Process cmd = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo()
+            {
+                FileName = fileName,
+                Arguments = arguments,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                RedirectStandardInput = true,
+                StandardOutputEncoding = defaultEncoding,
+                StandardErrorEncoding = defaultEncoding
+            };
 
-			ProcessStartInfo startInfo = new ProcessStartInfo()
-			{
-				FileName = fileName,
-				Arguments = arguments,
-				UseShellExecute = false,
-				CreateNoWindow = true,
-				RedirectStandardOutput = true,
-				RedirectStandardError = true,
-				RedirectStandardInput = true,
-				StandardOutputEncoding = Encoding.GetEncoding(defaultCodePage),
-				StandardErrorEncoding = Encoding.GetEncoding(defaultCodePage)
-			};
+            cmd.EnableRaisingEvents = true;
 
-			cmd.EnableRaisingEvents = true;
+            cmd.StartInfo = startInfo;
 
-			cmd.StartInfo = startInfo;
+            cmd.Start();
 
-			cmd.Start();
+            return cmd.StandardOutput.ReadToEnd();
+        }
 
-			return cmd.StandardOutput.ReadToEnd();
-		}
-
-		public static void StopWithShell()
-		{
-			KillChildProcessesWithShell();
-			Commandline.Kill();
-		}
-	}
+        public static void StopWithShell()
+        {
+            KillChildProcessesWithShell();
+            Commandline.Kill();
+        }
+    }
 }

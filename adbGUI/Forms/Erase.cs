@@ -1,8 +1,8 @@
 ﻿namespace adbGUI.Forms
 {
+    using Methods;
     using System;
     using System.Windows.Forms;
-    using Methods;
 
     public partial class Erase : ExtForm
     {
@@ -25,9 +25,9 @@
             }
         }
 
-		private void RadioButton_CheckedChanged(object sender, EventArgs e)
-		{
+        private void RadioButton_CheckedChanged(object sender, EventArgs e)
+        {
             txt_Erase.Text = ((RadioButton)sender).Text.ToLower();
-		}
-	}
+        }
+    }
 }

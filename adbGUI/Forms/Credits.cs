@@ -3,9 +3,7 @@
 
 namespace adbGUI.Forms
 {
-	using adbGUI.Methods;
-	using System;
-    using System.Windows.Forms;
+    using System;
 
     public partial class Credits : ExtForm
     {
